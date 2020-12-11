@@ -1,0 +1,43 @@
+apiVersion: skaffold/v2beta8
+kind: Config
+metadata:
+  name: skaffold-kpt-example
+build:
+  local:
+    push: true
+  tagPolicy:
+    customTemplate:
+      template: "dev-{{.USER}}-{{.LONG_COMMIT}}"
+      components:
+        - name: USER
+          envTemplate:
+            template: "{{.USER}}"
+        - name: LONG_COMMIT
+          gitCommit:
+            variant: CommitSha
+  artifacts:
+    - image: gcr.io/cloudnative-id/skaffold-kpt-example
+      jib: {}
+      context: .
+deploy:
+  kubeContext: gke_kaffold-dev_europe-west1_skaffold-kpt-example-test
+  kustomize:
+    defaultNamespace: skaffold-kpt-example-test
+    paths: ["kubernetes/dev"]
+profiles:
+  - name: prod
+    deploy:
+      kustomize:
+        paths: ["kubernetes/prod"]
+    patches:
+      - op: replace
+        path: /build/tagPolicy
+        value:
+          gitCommit:
+            variant: CommitSha
+  - name: latest
+    patches:
+      - op: replace
+        path: /build/tagPolicy
+        value:
+          sha256: {}

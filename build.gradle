@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.20'
+    id 'com.google.cloud.tools.jib' version '2.7.0'
+}
+
+group 'com.github.irvifa'
+
+version '1.0-SNAPSHOT'
+
+project.ext {
+    mainClass = 'com.github.irvifa.helloworld.HelloWorldApplication'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    implementation group: 'io.dropwizard', name: 'dropwizard-core', version: dropwizardVersion
+    implementation group: 'net.sourceforge.argparse4j', name: 'argparse4j', version: '0.7.0'
+    implementation group: 'io.dropwizard', name: 'dropwizard-json-logging', version: dropwizardVersion
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+
+    testCompile group: 'io.dropwizard', name: 'dropwizard-testing', version: dropwizardVersion
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+jib {
+    from {
+        image = 'openjdk:8-jre'
+    }
+    to {
+        image = 'gcr.io/cloudnative-id/skaffold-kpt-example'
+        auth {
+            username = 'oauth2accesstoken'
+            password = 'gcloud auth print-access-token'.execute().text.trim()
+        }
+    }
+    container {
+        jvmFlags = ['-Xdebug', '-XX:+AlwaysPreTouch',
+                    '-Dcom.sun.management.jmxremote.port=9011', '-Dcom.sun.management.jmxremote.rmi.port=9011',
+                    '-Dcom.sun.management.jmxremote.ssl=false', '-Dcom.sun.management.jmxremote.authenticate=false',
+                    '-Djava.rmi.server.hostname=localhost']
+        mainClass = mainClass
+        args = ['some', 'args']
+        ports = ['8080', '8081']
+        format = 'OCI'
+    }
+}

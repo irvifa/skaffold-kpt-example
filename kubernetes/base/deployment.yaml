@@ -1,0 +1,38 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: skaffold-kpt-example
+spec:
+  selector:
+    matchLabels:
+      app: skaffold-kpt-example
+  template:
+    metadata:
+      labels:
+        app: skaffold-kpt-example
+    spec:
+      containers:
+        - name: skaffold-kpt-example
+          image: gcr.io/cloudnative-id/skaffold-kpt-example
+          args: ['server', '/etc/config/hello-world.yaml']
+          ports:
+            - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /hello-world
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 60
+          readinessProbe:
+            httpGet:
+              path: /hello-world
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 60
+          volumeMounts:
+          - name: hello-world-volume
+            mountPath: /etc/config/hello-world.yaml
+      volumes:
+      - name: hello-world-volume
+        configMap:
+          name: hello-world-config
