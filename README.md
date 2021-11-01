@@ -12,7 +12,14 @@ A sample application using jib, skaffold, and kpt.
 
 Using the following command, you can change the namespace of the dev environment:
 ```
-kpt cfg set kubernetes environment dev
+kpt fn eval --image gcr.io/kpt-fn/apply-setters:v0.2 -- environment=dev
+```
+Other alternative will be:
+```
+kpt fn render
+```
+Running the application on your local machine:
+```
 skaffold dev --port-forward
 ```
 
@@ -21,6 +28,5 @@ This will run your code in your cluster while allowing port connection to your l
 ## Rendering using Skaffold and Deploy to Prod
 
 ```
-skaffold render-clean artifact-archive/kubernetes/skaffold-kpt-example.yaml
-skaffold build -platest
+skaffold render -pprod | kpt fn sink artifacts
 ```

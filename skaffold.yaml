@@ -1,4 +1,4 @@
-apiVersion: skaffold/v2beta8
+apiVersion: skaffold/v2beta25
 kind: Config
 metadata:
   name: skaffold-kpt-example
@@ -7,22 +7,20 @@ build:
     push: true
   tagPolicy:
     customTemplate:
-      template: "dev-{{.USER}}-{{.LONG_COMMIT}}"
+      template: "dev-{{.USER}}-{{.INPUT_DIGEST}}"
       components:
         - name: USER
           envTemplate:
             template: "{{.USER}}"
-        - name: LONG_COMMIT
-          gitCommit:
-            variant: CommitSha
+        - name: INPUT_DIGEST
+          inputDigest: {}
   artifacts:
-    - image: gcr.io/cloudnative-id/skaffold-kpt-example
+    - image: docker.io/irvifa/skaffold-kpt-example
       jib: {}
       context: .
 deploy:
-  kubeContext: gke_kaffold-dev_europe-west1_skaffold-kpt-example-test
+  kubeContext: kind-kubernetes-days-id-demo
   kustomize:
-    defaultNamespace: skaffold-kpt-example-test
     paths: ["kubernetes/dev"]
 profiles:
   - name: prod
@@ -33,8 +31,7 @@ profiles:
       - op: replace
         path: /build/tagPolicy
         value:
-          gitCommit:
-            variant: CommitSha
+          inputDigest: {}
   - name: latest
     patches:
       - op: replace

@@ -80,3 +80,4 @@ build
 ## gradle related stuff
 .gradle/
 .idea
+artifacts

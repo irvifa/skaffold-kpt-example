@@ -13,3 +13,5 @@ generatorOptions:
     type: generated
   annotations:
     note: generated
+commonLabels:
+  app: hello-world
