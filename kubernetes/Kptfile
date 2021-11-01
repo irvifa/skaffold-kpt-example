@@ -1,24 +1,4 @@
-apiVersion: kpt.dev/v1alpha1
+apiVersion: kpt.dev/v1
 kind: Kptfile
 metadata:
-  name: skaffold-kpt-example
-packageMetadata:
-  shortDescription: Example package of using skaffold and kpt
-openAPI:
-  definitions:
-    io.k8s.cli.setters.environment:
-      description: Environment
-      type: string
-      x-k8s-cli:
-        setter:
-          name: environment
-          value: stg
-          isSet: true
-    io.k8s.cli.substitutions.namespace:
-      x-k8s-cli:
-        substitution:
-          name: namespace
-          pattern: skaffold-kpt-example-ENVIRONMENT
-          values:
-          - marker: ENVIRONMENT
-            ref: '#/definitions/io.k8s.cli.setters.environment'
+  name: hello-world

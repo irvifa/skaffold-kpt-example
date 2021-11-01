@@ -12,7 +12,7 @@ A sample application using jib, skaffold, and kpt.
 
 Using the following command, you can change the namespace of the dev environment:
 ```
-kpt cfg set kubernetes environment dev
+kpt fn eval --image gcr.io/kpt-fn/apply-setters:v0.2 -- environment=dev
 skaffold dev --port-forward
 ```
 
