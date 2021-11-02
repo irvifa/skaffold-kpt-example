@@ -5,7 +5,6 @@ plugins {
 }
 
 group 'com.github.irvifa'
-
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = '11'
@@ -16,8 +15,8 @@ project.ext {
 }
 
 repositories {
-    mavenCentral()
     jcenter()
+    mavenCentral()
 }
 
 configurations {
@@ -38,7 +37,7 @@ dependencies {
 
 jib {
     from {
-        image = 'openjdk:8-jre'
+        image = 'gcr.io/distroless/java-debian10:11'
     }
     to {
         image = 'docker.io/irvifa/skaffold-kpt-example'
@@ -54,6 +53,7 @@ jib {
          format = 'OCI'
     }
 }
+
 task ktlint(type: JavaExec, group: "verification") {
     description = "Check Kotlin code style."
     main = "com.pinterest.ktlint.Main"
