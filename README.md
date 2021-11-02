@@ -4,8 +4,14 @@ A sample application using jib, skaffold, and kpt.
 
 ## Building and Pushing Container Image
 
+Directly using Jib:
 ```
 ./gradlew jib
+```
+
+Using Skaffold:
+```
+make image-build
 ```
 
 ## Substituting and Setting Up Variables using Kpt
@@ -25,8 +31,8 @@ skaffold dev --port-forward
 
 This will run your code in your cluster while allowing port connection to your local
 
-## Rendering using Skaffold and Deploy to Prod
+## Rendering Prod Manifests
 
 ```
-skaffold render -pprod | kpt fn sink artifacts
+make clean && make render
 ```

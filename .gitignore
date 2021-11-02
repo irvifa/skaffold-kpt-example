@@ -80,4 +80,6 @@ build
 ## gradle related stuff
 .gradle/
 .idea
-artifacts
+
+# krm resources related stuff
+artifacts/
