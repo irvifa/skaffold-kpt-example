@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: skaffold-kpt-example
+  name: hello-world
 spec:
   selector:
     matchLabels:
-      app: skaffold-kpt-example
+      app: hello-world
   template:
     metadata:
       labels:
-        app: skaffold-kpt-example
+        app: hello-world
     spec:
       containers:
         - name: skaffold-kpt-example
           image: docker.io/irvifa/skaffold-kpt-example
-          args: ['server', '/etc/config/hello-world.yaml']
+          args: [ 'server', '/etc/config/hello-world.yaml' ]
           ports:
             - containerPort: 8080
           livenessProbe:
             httpGet:
-              path: /hello-world
-              port: 8080
+              path: /healthcheck
+              port: 8081
             initialDelaySeconds: 10
             periodSeconds: 60
           readinessProbe:

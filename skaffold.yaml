@@ -1,7 +1,7 @@
 apiVersion: skaffold/v2beta25
 kind: Config
 metadata:
-  name: skaffold-kpt-example
+  name: hello-world
 build:
   local:
     push: true
@@ -13,28 +13,28 @@ build:
           envTemplate:
             template: "{{.USER}}"
         - name: INPUT_DIGEST
-          inputDigest: {}
+          inputDigest: { }
   artifacts:
     - image: docker.io/irvifa/skaffold-kpt-example
-      jib: {}
+      jib: { }
       context: .
 deploy:
   kubeContext: kind-kubernetes-days-id-demo
   kustomize:
-    paths: ["kubernetes/dev"]
+    paths: [ "kubernetes/dev" ]
 profiles:
   - name: prod
     deploy:
       kustomize:
-        paths: ["kubernetes/prod"]
+        paths: [ "kubernetes/prod" ]
     patches:
       - op: replace
         path: /build/tagPolicy
         value:
-          inputDigest: {}
+          inputDigest: { }
   - name: latest
     patches:
       - op: replace
         path: /build/tagPolicy
         value:
-          sha256: {}
+          sha256: { }
