@@ -1,6 +1,6 @@
 package com.github.irvifa.helloworld
 
-import com.github.irvifa.helloworld.health.TemplateHealthCheck
+import com.github.irvifa.helloworld.health.HelloWorldHealthCheck
 import com.github.irvifa.helloworld.resources.HelloWorldResource
 import io.dropwizard.Application
 import io.dropwizard.setup.Bootstrap
@@ -25,13 +25,14 @@ class HelloWorldApplication : Application<HelloWorldConfiguration>() {
             configuration.template!!,
             configuration.defaultName!!
         )
-        val healthCheck = TemplateHealthCheck(configuration.template)
+        val healthCheck = HelloWorldHealthCheck(configuration.template)
         environment.healthChecks().register("template", healthCheck)
         environment.jersey().register(resource)
     }
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(HelloWorldApplication::class.java)
+
         @Throws(Exception::class)
         @JvmStatic
         fun main(args: Array<String>) {

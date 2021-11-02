@@ -2,7 +2,7 @@ package com.github.irvifa.helloworld.health
 
 import com.codahale.metrics.health.HealthCheck
 
-class TemplateHealthCheck(private val template: String) : HealthCheck() {
+class HelloWorldHealthCheck(private val template: String) : HealthCheck() {
     @Throws(Exception::class)
     override fun check(): Result {
         val saying = String.format(template, "TEST")
