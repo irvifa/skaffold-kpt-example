@@ -18,6 +18,12 @@ build:
     - image: docker.io/irvifa/skaffold-kpt-example
       jib: { }
       context: .
+      hooks:
+        before:
+          - command: [ "./gradlew", "ktlint" ]
+            os: [ darwin, linux ]
+          - command: [ "gradlew", "ktlint" ]
+            os: [ windows ]
 deploy:
   kubeContext: kind-kubernetes-days-id-demo
   kustomize:
@@ -32,9 +38,13 @@ profiles:
         path: /build/tagPolicy
         value:
           inputDigest: { }
+      - op: remove
+        path: /build/artifacts/0/hooks
   - name: latest
     patches:
       - op: replace
         path: /build/tagPolicy
         value:
           sha256: { }
+      - op: remove
+        path: /build/artifacts/0/hooks
