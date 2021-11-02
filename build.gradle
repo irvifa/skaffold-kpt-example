@@ -48,7 +48,6 @@ jib {
                     '-Dcom.sun.management.jmxremote.ssl=false', '-Dcom.sun.management.jmxremote.authenticate=false',
                     '-Djava.rmi.server.hostname=localhost']
         mainClass = mainClass
-        args = ['some', 'args']
         ports = ['8080', '8081']
          format = 'OCI'
     }
