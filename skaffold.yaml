@@ -22,8 +22,6 @@ build:
         before:
           - command: [ "./gradlew", "ktlint" ]
             os: [ darwin, linux ]
-          - command: [ "gradlew", "ktlint" ]
-            os: [ windows ]
 deploy:
   kubeContext: kind-kubernetes-days-id-demo
   kustomize:

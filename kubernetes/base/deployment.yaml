@@ -25,8 +25,8 @@ spec:
             periodSeconds: 60
           readinessProbe:
             httpGet:
-              path: /hello-world
-              port: 8080
+              path: /healthcheck
+              port: 8081
             initialDelaySeconds: 10
             periodSeconds: 60
           volumeMounts:
